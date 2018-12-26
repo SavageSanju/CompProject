@@ -93,6 +93,15 @@ void returnmovie()
 
 }
 
+void managermenu()
+{
+    cout<<"OPTIONS:"<<endl;
+    cout<<"1. Add movies to the library"<<endl;
+    cout<<"2. Delete movies from the library"<<endl;
+    cout<<"3. View the borrowed movies with details"<<endl;
+    
+    
+
 int main()
 {
     //initial menu
@@ -111,7 +120,7 @@ int main()
         cin>>passw;
         if (passw==2806)
         {
-            manager();
+            managermenu();
         }
     }
     
