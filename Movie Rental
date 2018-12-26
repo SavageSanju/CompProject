@@ -69,12 +69,12 @@ void rentmovie();
     gets(cname);
     cout<<"Which movie would you like to rent?"<<endl;
     gets(rmovie);
-    ifstream f;
-    f.open("movies.txt",ios:in);
+    ifstream nf;
+    nf.open("movies.txt",ios:in);
     char word[50];
-    while(!f.eof())
+    while(!nf.eof())
     {
-        f>>word;
+        nf>>word;
         if (strcmpi(word,rmovie)==0)
         {
             //make an array with customer name, movie borrowed and date borrowed
@@ -93,14 +93,134 @@ void returnmovie()
 
 }
 
-void managermenu()
+
+class movielibrary
 {
-    cout<<"OPTIONS:"<<endl;
-    cout<<"1. Add movies to the library"<<endl;
-    cout<<"2. Delete movies from the library"<<endl;
-    cout<<"3. View the borrowed movies with details"<<endl;
-    
-    
+   public:   
+       char movie[50];
+       void addmovie();
+       void writemovie();
+       void getmovie();
+       void deletemovie();
+       void displaymovie();
+       void readmovie();
+       void managermenu();
+
+};
+
+fstream f;
+movielibrary s;
+
+void movielibrary::writemovie()
+{
+    int nom;
+    cout<<"Input the number of movies"<<endl;
+    cin>>nom;
+    f.open("library.dat",ios::out|ios::binary);
+    for (int i=0;i<nom;i++)
+    {
+        s.getmovie();
+        f.write((char*)&s,sizeof(s));
+
+    }
+    f.close();
+}
+
+void movielibrary::getmovie()
+{
+    cout<<"Enter the movie: "<<endl;
+    fflush(stdin);
+    gets(movie);
+}
+
+void movielibrary:: displaymovie()
+{
+
+    cout<<movie<<"  ";
+}
+
+void movielibrary:: readmovie()
+{
+    f.open("library.dat",ios::in|ios::binary);
+    while(f.read((char*)&s,sizeof(s)))
+        displaymovie();
+    f.close();
+}
+
+void movielibrary:: addmovie()
+{
+    int n,i;
+    movielibrary m;
+    f.open("library.dat",ios::binary|ios::app|ios::binary);
+    cout<<"How many movies do you want to add?"<<endl;
+    cin>>n;
+    for(i=0;i<n;i++)
+    {
+        m.getmovie();
+        f.write((char*)&m,sizeof(m));
+    }
+    f.close();
+}
+
+void movielibrary:: deletemovie()
+{
+    int flag=0;
+    char delmovie[50];
+    cout<<"Enter the name of the movie to be deleted"<<endl;
+    fflush(stdin);
+    gets(delmovie);
+    f.open("library.dat",ios::in|ios::binary);
+    fstream nf;
+    nf.open("newlibrary.dat",ios::out|ios::binary);
+    while(f.read((char*)&s,sizeof(s)))
+    {
+        if (strcmpi(s.movie,delmovie)!=0)
+            nf.write((char*)&s,sizeof(s));
+        else
+            flag++;
+    }
+    f.close();
+    nf.close();
+    remove("library.dat");
+    rename ("newlibrary.dat","library.dat");
+    if(!flag)
+        cout<<"Not found! Try another movie."<<endl;
+}
+
+
+void movielibrary:: managermenu()
+{
+    int c;
+    char choice='y';
+    do
+    {
+        cout<<"OPTIONS:"<<endl;
+        cout<<"1. Add movies to the library"<<endl;
+        cout<<"2. Delete movies from the library"<<endl;
+        cout<<"3. View the borrowed movies with details"<<endl;
+        cout<<"4. Write into binary file"<<endl;
+        cout<<"5. Read from binary file"<<endl;
+        cin>>c;
+        switch(c)
+        {
+            case 1: addmovie();
+                    break;
+            case 2: deletemovie();
+                    break;
+            case 3: current();
+                    break;
+            case 4: writemovie();
+                    break;
+            case 5: readmovie();
+                    break;
+            default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
+                    break;
+        }
+    cout<<"Do you want to continue? y or n"<<endl;
+    cin>>choice;
+    }
+    while(choice=='y'||choice=='Y'); 
+  }  
 
 int main()
 {
@@ -120,7 +240,7 @@ int main()
         cin>>passw;
         if (passw==2806)
         {
-            managermenu();
+            s.managermenu();
         }
     }
     
