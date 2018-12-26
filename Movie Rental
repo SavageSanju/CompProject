@@ -14,6 +14,7 @@ void customermenu()
         cout<<"OPTIONS:"<<endl;
         cout<<"1.Rent a movie"<<endl;
         cout<<"2.Return a movie"<<endl;
+        cout<<"3.View history"<<endl;
         cin>>c;
         switch(c)
         {
@@ -21,7 +22,9 @@ void customermenu()
                     break;
             case 2: returnmovie();
                     break;
-            default:cout<<"Wrong input! Please input numbers 1 or 2 only."<<endl;
+            case 3: viewhistory();
+                    break;
+            default:cout<<"Wrong input! Please input numbers 1, 2 only."<<endl;
                     break;
         }
     cout<<"Do you want to continue? y or n"<<endl;
@@ -45,6 +48,7 @@ void rentmovie();
     char cname[30];
     char rmovie[50];
     //system date 
+    //are you a new customer
     cout<<"Enter your name"<<endl;
     gets(cname);
     cout<<"Which movie would you like to rent?"<<endl;
