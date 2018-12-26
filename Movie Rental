@@ -24,7 +24,7 @@ void customermenu()
                     break;
             case 3: viewhistory();
                     break;
-            default:cout<<"Wrong input! Please input numbers 1, 2 only."<<endl;
+            default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
                     break;
         }
     cout<<"Do you want to continue? y or n"<<endl;
