@@ -82,7 +82,6 @@ int main()
     //initial menu
     char user[30];
     cout<<"Welcome to ________ Movie Rentals"<<endl;
-    //give some aditional info? like borrow only one movie at a time, fees, etc.
     cout<<"Are you a customer or a manager?"<<endl;
     gets(user);
     if(strcmpi(user,"Customer")==0)
