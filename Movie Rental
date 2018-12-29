@@ -67,32 +67,67 @@ void customermenu()
     f.close();
 }*/
 
-void rentmovie();
+void rentmovie()
 {
-    char cname[30];
-    char rmovie[50];
-    //system date 
-    //are you a new customer
-    cout<<"Enter your name"<<endl;
-    gets(cname);
-    cout<<"Which movie would you like to rent?"<<endl;
-    gets(rmovie);
-    ifstream nf;
-    nf.open("movies.txt",ios:in);
-    char word[50];
-    while(!nf.eof())
+
+    int code[10]={1,2,3,4,5,6,7,8,9,10};
+     int noc=0;
+    char ch[5],cn;
+    cout<<"want to continue";
+    cin>>cn;
+      f.open("database.dat",ios::out|ios::binary);
+    while(cn=='y')
     {
-        nf>>word;
-        if (strcmpi(word,rmovie)==0)
-        {
-            //make an array with customer name, movie borrowed and date borrowed
-            //add above info to the array
-            //allow renting of two movies somehow
-        }
-        else
-            cout<<"Movie not available"<<endl;
+    Customer c;
+cout<<"are you a new customer";
+    cin>>ch;
+    if(strcmp(ch,"yes")==0)
+    {noc=noc+1;
+     c.Ccode=code[noc-1];
+
     }
+    else
+      {
+           cout<<"enter your code";
+           cin>>c.Ccode;
+
+      }
+    cout<<"enter the movie you want to borrow";
+    cin>>c.rental[0].MovieName;
+    int flag=0;
+    movielibrary m;
+    nf.open("library.dat",ios::in|ios::binary);
+    while(nf.read((char*)&m,sizeof(m)))
+    {
+        if (strcmp(m.movie,c.rental[0].MovieName)==0)
+            flag=1;
+    }
+    if (flag==1)
+
+
+{
+         c.rental[0].DateBorrowed=123;
+
+    f.write((char*)&c,sizeof(c));
+    //cout<<c.Ccode<<"  "<<c.rental[0].MovieName<<endl;
+    }
+    else
+        cout<<"not available at the moment";
+
+     cout<<"want to continue";
+    cin>>cn;
     
+
+   
+
+    }
+
+f.close();
+Customer c;
+f.open("database.dat",ios::in|ios::binary);
+cout<<" code  movie name  date borrowed"<<endl;
+while(f.read((char*)&c,sizeof(c)))
+ cout<<c.Ccode<<"  "<<c.rental[0].MovieName<<endl;
 
 }
 
