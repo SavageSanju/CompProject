@@ -81,7 +81,7 @@ void rentmovie()
     Customer c;
 cout<<"are you a new customer";
     cin>>ch;
-    if(strcmp(ch,"yes")==0)
+    if(strcmpi(ch,"yes")==0)
     {noc=noc+1;
      c.Ccode=code[noc-1];
 
@@ -99,7 +99,7 @@ cout<<"are you a new customer";
     nf.open("library.dat",ios::in|ios::binary);
     while(nf.read((char*)&m,sizeof(m)))
     {
-        if (strcmp(m.movie,c.rental[0].MovieName)==0)
+        if (strcmpi(m.movie,c.rental[0].MovieName)==0)
             flag=1;
     }
     if (flag==1)
