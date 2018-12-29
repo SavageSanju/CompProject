@@ -54,7 +54,6 @@ void customermenu()
 
 void rentmovie()
 {
-
     int code[10]={1,2,3,4,5,6,7,8,9,10};
     int noc=0;
     char ch[5],cn;
@@ -70,6 +69,7 @@ void rentmovie()
         {
             noc=noc+1;
             c.Ccode=code[noc-1];
+            cout<<"your customer code is "<<c.Ccode<<endl;
         }
         else
         {
@@ -126,6 +126,21 @@ void returnmovie()
         cout<<"Not a valid customer code";
     f.close;
 }
+void viewhistory()
+{
+    Customer c;
+      f.open("database.dat",ios::in|ios::binary);
+      cout<<"enter customer code to view history";
+      int ncode;
+      cin>>ncode;
+      cout<<" code  movie name  date borrowed"<<endl;
+    while(f.read((char*)&c,sizeof(c)))
+    {
+        if (c.Ccode==ncode)
+             cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<c.rental.DateBorrowed<<endl;
+}
+f.close();
+    }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
