@@ -67,10 +67,11 @@ void customermenu()
     f.close();
 }*/
 
+fstream f,nf;
+
 void rentmovie()
 {
-
-    int code[10]={1,2,3,4,5,6,7,8,9,10};
+     int code[10]={1,2,3,4,5,6,7,8,9,10};
      int noc=0;
     char ch[5],cn;
     cout<<"want to continue";
@@ -79,34 +80,33 @@ void rentmovie()
     while(cn=='y')
     {
     Customer c;
-cout<<"are you a new customer";
+    cout<<"are you a new customer";
     cin>>ch;
-    if(strcmpi(ch,"yes")==0)
-    {noc=noc+1;
-     c.Ccode=code[noc-1];
-
+    if(strcmp(ch,"yes")==0)
+    {
+        noc=noc+1;
+        c.Ccode=code[noc-1];
     }
     else
       {
            cout<<"enter your code";
            cin>>c.Ccode;
-
       }
     cout<<"enter the movie you want to borrow";
-    cin>>c.rental[0].MovieName;
-    int flag=0;
+    cin>>c.rental.MovieName;
+    int flag=1;
     movielibrary m;
     nf.open("library.dat",ios::in|ios::binary);
     while(nf.read((char*)&m,sizeof(m)))
     {
-        if (strcmpi(m.movie,c.rental[0].MovieName)==0)
+       if (strcmp(m.movie,c.rental.MovieName)==0)
             flag=1;
     }
     if (flag==1)
 
-
+ 
 {
-         c.rental[0].DateBorrowed=123;
+         c.rental.DateBorrowed=123;
 
     f.write((char*)&c,sizeof(c));
     //cout<<c.Ccode<<"  "<<c.rental[0].MovieName<<endl;
@@ -115,20 +115,17 @@ cout<<"are you a new customer";
         cout<<"not available at the moment";
 
      cout<<"want to continue";
-    cin>>cn;
-    
-
-   
-
+     cin>>cn;
     }
-
 f.close();
 Customer c;
-f.open("database.dat",ios::in|ios::binary);
 cout<<" code  movie name  date borrowed"<<endl;
+f.open("database.dat",ios::in|ios::binary);
 while(f.read((char*)&c,sizeof(c)))
- cout<<c.Ccode<<"  "<<c.rental[0].MovieName<<endl;
-
+{
+    cout<<c.Ccode<<"  "<<c.rental.MovieName<<endl;
+}
+f.close();
 }
 
 void returnmovie()
@@ -152,9 +149,6 @@ void returnmovie()
         cout<<"Not a valid customer code";
     f.close;
 }
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -321,11 +315,8 @@ int main()
     }
     
 }
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 //#include <time.h>
 //using namespace std;
