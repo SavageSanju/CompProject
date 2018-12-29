@@ -21,7 +21,7 @@ class Rental
 {
     char MovieName[30];
     int DateBorrowed;
-    int DateReturned;
+    int DateReturned;   
 }
 class Customer
 {
@@ -98,7 +98,24 @@ void rentmovie();
 
 void returnmovie()
 {
-
+    Customer s;
+    fstream f;
+    int t, flag=0;
+    f.open("Database.dat,ios::in|ios::binary);
+    cout<<"\n Enter customer code";
+    cin>>t;
+    while(f.read((char*)&s,sizeof(s)))
+    {
+        if(s.Ccode==t)
+        {
+            int l= 
+            flag=1;
+            break;
+        }
+    }
+    if(!flag)
+        cout<<"Not a valid customer code";
+    f.close;
 }
 
 
