@@ -59,97 +59,6 @@ void Customer::customermenu()
 }
 fstream f;
 Customer customer;
-
-/*void Customer ::rentmovie()
-{
-    int code[10]={1,2,3,4,5,6,7,8,9,10};
-    int noc=0;
-    char ch[5],cn;
-    cout<<"want to continue";
-    cin>>cn;
-    f.open("database.dat",ios::out|ios::binary);
-    while(cn=='y')
-    {
-        Customer c;
-        cout<<"are you a new customer";
-        cin>>ch;
-        if(strcmpi(ch,"yes")==0)
-        {
-            noc=noc+1;
-            c.Ccode=code[noc-1];
-            cout<<"your customer code is "<<c.Ccode<<endl;
-        }
-        else
-        {
-           cout<<"enter your code";
-           cin>>c.Ccode;
-        }
-        cout<<"enter the movie you want to borrow";
-        cin>>c.rental.MovieName;
-        int flag=0;
-        movielibrary m;
-        nf.open("library.dat",ios::in|ios::binary);
-        while(nf.read((char*)&m,sizeof(m)))
-        {
-            if (strcmpi(m.movie,c.rental.MovieName)==0)
-                flag=1;
-        }
-        if (flag==1)
-        {
-        c.rental.DateBorrowed=123;
-        f.write((char*)&c,sizeof(c));
-        //cout<<c.Ccode<<"  "<<c.rental[0].MovieName<<endl;
-        }
-        else
-            cout<<"not available at the moment";
-        cout<<"want to continue";
-        cin>>cn;
-    }
-f.close();
-Customer c;
-f.open("database.dat",ios::in|ios::binary);
-cout<<" code  movie name  date borrowed"<<endl;
-while(f.read((char*)&c,sizeof(c)))
-    cout<<c.Ccode<<"  "<<c.rental.MovieName<<endl;
-}
-
-void Customer ::returnmovie()
-{
-    Customer s;
-
-    int t, flag=0;
-    f.open("Database.dat",ios::in|ios::binary);
-    cout<<"\n Enter customer code";
-    cin>>t;
-    while(f.read((char*)&s,sizeof(s)))
-    {
-        if(s.Ccode==t)
-        {
-            int l=
-            flag=1;
-            break;
-        }
-    }
-    if(!flag)
-        cout<<"Not a valid customer code";
-    f.close();
-}
-void Customer::viewhistory()
-{
-    Customer c;
-      f.open("database.dat",ios::in|ios::binary);
-      cout<<"enter customer code to view history";
-      int ncode;
-      cin>>ncode;
-      cout<<" code  movie name  date borrowed"<<endl;
-    while(f.read((char*)&c,sizeof(c)))
-    {
-        if (c.Ccode==ncode)
-             cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<c.rental.DateBorrowed<<endl;
-}
-f.close();
-    } */
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //manager functions
@@ -169,8 +78,6 @@ class movielibrary
        void managermenu();
 
 };
-
-
 movielibrary s;
 
 void movielibrary::writemovie()
