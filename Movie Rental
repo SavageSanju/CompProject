@@ -11,19 +11,19 @@ class Movie
 {
     char MovieName[30];
     int NoOfMovie;
-}
+};
 class Rental
 {
     char MovieName[30];
     int DateBorrowed;
     int DateReturned;   
-}
+};
 class Customer
 {
     Rental rental[1];
     int Ccode;
     char Name[30];
-}   
+} ;  
 void customermenu()
 {
     int c;
@@ -110,7 +110,7 @@ void returnmovie()
     Customer s;
     fstream f;
     int t, flag=0;
-    f.open("Database.dat,ios::in|ios::binary);
+    f.open("Database.dat",ios::in|ios::binary);
     cout<<"\n Enter customer code";
     cin>>t;
     while(f.read((char*)&s,sizeof(s)))
