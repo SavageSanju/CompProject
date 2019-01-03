@@ -267,7 +267,6 @@ void Customer:: rentmovie()
     // }
     f.close();
     f.open("database.dat",ios::in|ios::binary);
-    nf.open("library.dat",ios::in|ios::binary);
     cout<<" code  movie name  date borrowed"<<endl;
     while(f.read((char*)&c,sizeof(c)))
         cout<<c.Ccode<<"  "<<c.rental.MovieName<<"  "<<c.rental.DateBorrowed<<endl;
