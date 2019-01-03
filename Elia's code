@@ -218,9 +218,9 @@ int noc=0;
 void Customer:: rentmovie()
 {
     int code[10]={1,2,3,4,5,6,7,8,9,10};
-    
+
     char ch[5],cn;
-    f.open("database.dat",ios::out|ios::binary);
+    f.open("database.dat",ios::out|ios::in|ios::binary);
     // while(cn=='y')
     //{
     Customer c;
@@ -242,8 +242,10 @@ void Customer:: rentmovie()
     int flag=0;
     movielibrary m;
     nf.open("library.dat",ios::in|ios::binary);
+    int iterCount = 0;
     while(nf.read((char*)&m,sizeof(m)))
     {
+        cout<<"In While" << iterCount++;
         if (strcmp(m.movie,c.rental.MovieName)==0)
             flag=1;
     }
@@ -259,6 +261,7 @@ void Customer:: rentmovie()
     //cout<<"want to continue";
     // cin>>cn;
     // }
+    nf.close();
     f.close();
     f.open("database.dat",ios::in|ios::binary);
     cout<<" code  movie name  date borrowed"<<endl;
