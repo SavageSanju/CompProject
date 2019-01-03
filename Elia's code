@@ -35,7 +35,7 @@ public:
     void viewhistory();
     void customermenu();
 } ;
-
+int noc=0;
 void Customer::customermenu()
 {
     int c;
@@ -217,17 +217,19 @@ void movielibrary:: managermenu()
 void Customer:: rentmovie()
 {
     int code[10]={1,2,3,4,5,6,7,8,9,10};
-    int noc=0;
     char ch[5],cn;
-    f.open("database.dat",ios::out|ios::binary);
+    f.open("database.dat",ios::out|ios::in|ios::binary);
     // while(cn=='y')
     //{
+    int pos=f.tellg();
     Customer c;
     cout<<"are you a new customer";
     cin>>ch;
+    // cout<<f.tellg()/sizeof(c)<<"is the size"<<endl;
     if(strcmp(ch,"yes")==0)
     {
         noc=noc+1;
+
         c.Ccode=code[noc-1];
         cout<<"your customer code is "<<c.Ccode<<endl;
     }
@@ -239,6 +241,8 @@ void Customer:: rentmovie()
     cout<<"enter the movie you want to borrow";
      fflush(stdin);
     gets(c.rental.MovieName);
+
+
     int flag=0;
     movielibrary m;
     fstream nf,wf;
@@ -246,10 +250,12 @@ void Customer:: rentmovie()
 
     while (nf.read((char*)&m,sizeof(m)))
     {  if (strcmpi(c.rental.MovieName,m.movie)==0)
-      {if (m.code==0)
-             m.code=c.Ccode;
+      {
+          if (m.code==0)
+            m.code=c.Ccode;
             nf.write((char*)&m,sizeof(m));
-            flag=1;}
+            flag=1;
+            }
 
     }
     nf.close();
@@ -267,9 +273,14 @@ void Customer:: rentmovie()
     // }
     f.close();
     f.open("database.dat",ios::in|ios::binary);
+
     cout<<" code  movie name  date borrowed"<<endl;
+    f.seekg(pos);
     while(f.read((char*)&c,sizeof(c)))
+    {
+        cout<<f.tellg()/sizeof(c)<<"is the size"<<endl;
         cout<<c.Ccode<<"  "<<c.rental.MovieName<<"  "<<c.rental.DateBorrowed<<endl;
+    }
     f.close();
 
 }
@@ -361,4 +372,3 @@ int main()
     }
 
 }
-
