@@ -2,6 +2,7 @@
 #include<fstream>
 #include<string.h>
 #include<time.h>
+
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +66,7 @@ void Customer::customermenu()
 }
 
 fstream f;
-Customer customer;
+Customer c;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,16 +247,21 @@ void Customer:: rentmovie()
     nf.open("library.dat",ios::in|ios::out|ios::binary);
 
     while (nf.read((char*)&m,sizeof(m)))
-    {  if (strcmpi(c.rental.MovieName,m.movie)==0)
-      {if (m.code==0)
-            nf.seekp(nf.tellg()-sizeof(m));
-             m.code=c.Ccode;
-            nf.write((char*)&m,sizeof(m));
-            flag=1;}
+    {  
+        if (strcmpi(c.rental.MovieName,m.movie)==0)
+        {
+            if (m.code==0)
+            {
+                  nf.seekp(nf.tellg()-sizeof(m));
+                  m.code=c.Ccode;
+                  nf.write((char*)&m,sizeof(m));
+                  flag=1;
+             }
+          }
 
     }
     nf.close();
-     if (flag==1)
+    if (flag==1)
     {
         time_t now = time(0);
         c.rental.DateBorrowed=now;
@@ -351,7 +357,7 @@ void choicemenu()
     gets(user);
     if(strcmpi(user,"Customer")==0)
     {
-       customer.customermenu();
+       c.customermenu();
     }
     else if(strcmpi(user,"Manager")==0)
     {
