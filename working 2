@@ -342,16 +342,17 @@ void Customer:: viewhistory()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //main initial menu
 
-int main()
+//second menu
+
+void choicemenu()
 {
-    //initial menu
     char user[30];
-    cout<<"Welcome to ________ Movie Rentals"<<endl;
     cout<<"Are you a customer or a manager?"<<endl;
+    fflush(stdin);
     gets(user);
     if(strcmpi(user,"Customer")==0)
     {
-        customer.customermenu();
+       customer.customermenu();
     }
     else if(strcmpi(user,"Manager")==0)
     {
@@ -360,8 +361,25 @@ int main()
         cin>>passw;
         if (passw==2806)
         {
-            s.managermenu();
+            m.managermenu();
         }
     }
-
 }
+
+//main menu
+
+int main()
+{
+    cout<<"Welcome to ________ Movie Rentals"<<endl;
+    char choice='y';
+    do
+    {
+        choicemenu();
+        cout<<"Do you want to change users?"<<endl;
+        cin>>choice;
+    }
+    while (choice=='Y'||choice=='y');
+}
+
+
+
