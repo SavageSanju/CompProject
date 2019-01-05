@@ -1,0 +1,89 @@
+class Rentalnew
+{
+public:
+    int code;
+    char MovieName[30];
+    time_t DateBorrowed;
+    time_t DateReturned;
+};
+
+void Customer:: rentmovie()
+{
+    //int code[10]={1,2,3,4,5,6,7,8,9,10};
+    //int noc=0;
+    char ch[5];
+    f.open("database.dat",ios::out|ios::binary);
+    Rentalnew r,n;
+    int NoOfEntries=0;
+    int NoOfCustomers=0;
+    while(f.read((char*)&r,sizeof(r)))
+    {
+        NoOfEntries++;
+        if( r.code>NoOfCustomers)
+            NoOfCustomers=r.code;
+    }
+    cout<<"are you a new customer";
+    cin>>ch;
+   // while(f.read)
+    if(strcmp(ch,"yes")==0)
+    {
+        n.code=NoOfCustomers+1;
+        NoOfCustomers++;
+        cout<<"your customer code is "<<n.code<<endl;
+    }
+    else
+    {
+        cout<<"enter your code";
+        cin>>n.code;
+    }
+
+    cout<<"enter the movie you want to borrow";
+    fflush(stdin);
+    cin>>n.MovieName;
+    int flag=0;
+    movielibrary m;
+    fstream nf;
+    nf.open("library.dat",ios::in|ios::out|ios::binary);
+
+    while (nf.read((char*)&m,sizeof(m)))
+    {
+        if (strcmpi(n.MovieName,m.movie)==0)
+        {
+            if (m.code==0)
+            {
+                nf.seekp(nf.tellg()-sizeof(m));
+                m.code=n.code;
+                nf.write((char*)&m,sizeof(m));
+                flag=1;
+            }
+            else
+            {
+                cout<<"Movie not available at the moment. Please try again another day"<<endl;
+                flag=2;
+            }
+        }
+    }
+    nf.close();
+    if (flag==1)
+    {
+        time_t now = time(0);
+        n.DateBorrowed=now;
+        n.DateReturned=NULL;
+        f.write((char*)&c,sizeof(c));
+        cout<<" code  movie name  date borrowed"<<endl;
+        cout<<n.code<<"  "<<n.MovieName<<"  "<<n.DateBorrowed<<endl;
+        //cout<<c.Ccode<<"  "<<c.rental[0].MovieName<<endl;
+    }
+    if(flag==0)
+        cout<<"not available at the moment"<<endl;
+    //cout<<"want to continue";
+    // cin>>cn;
+    // }
+    f.close();
+    //f.open("database.dat",ios::in|ios::binary);
+    //cout<<" code  movie name  date borrowed"<<endl;
+    //while(f.read((char*)&c,sizeof(c)))
+     //   cout<<c.Ccode<<"  "<<c.rental.MovieName<<"  "<<c.rental.DateBorrowed<<endl;
+    //f.close();
+
+}
