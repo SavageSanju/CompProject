@@ -360,7 +360,7 @@ void choicemenu()
         cin>>passw;
         if (passw==2806)
         {
-            m.managermenu();
+            s.managermenu();
         }
     }
 }
