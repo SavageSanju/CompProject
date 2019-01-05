@@ -310,9 +310,9 @@ void Customer:: returnmovie()
         nf.open("library.dat",ios::in|ios::out|ios::binary);
        while (nf.read((char*)&m,sizeof(m)))
         if(strcmpi(n,m.movie)==0)
-         {
+         {  nf.seekp(nf.tellg()-sizeof(m));
              m.code=0;
-            // nf.write((char*)&m,sizeof(m));
+             nf.write((char*)&m,sizeof(m));
          }
             }
             nf.close();
