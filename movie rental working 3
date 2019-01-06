@@ -6,57 +6,6 @@
 using namespace std;
 
 fstream nf;
-
-class Rental
-{
-public:
-    char MovieName[30];
-    time_t DateBorrowed;
-    time_t DateReturned;
-};
-
-class Customer
-{
-public:
-    Rental rental;
-    int Ccode;
-    char Name[30];
-    void rentmovie();
-    void returnmovie();
-    void viewhistory();
-    void customermenu();
-};
-
-Customer c;
-
-void Customer::customermenu()
-{
-    int c;
-    char choice='y';
-    do
-    {
-        cout<<"OPTIONS:"<<endl;
-        cout<<"1.Rent a movie"<<endl;
-        cout<<"2.Return a movie"<<endl;
-        cout<<"3.View history"<<endl;
-        cin>>c;
-        switch(c)
-        {
-            case 1: rentmovie();
-                    break;
-            case 2: returnmovie();
-                    break;
-            case 3: viewhistory();
-                    break;
-            default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
-                    break;
-        }
-        cout<<"Do you want to continue? y or n"<<endl;
-        cin>>choice;
-    }
-    while(choice=='y'||choice=='Y');
-}
-
 fstream f;
 
 class movielibrary
@@ -194,6 +143,55 @@ void movielibrary:: managermenu()
     while(choice=='y'||choice=='Y');
 }
 
+class Rental
+{
+public:
+    char MovieName[30];
+    time_t DateBorrowed;
+    time_t DateReturned;
+};
+
+class Customer
+{
+public:
+    Rental rental;
+    int Ccode;
+    char Name[30];
+    void rentmovie();
+    void returnmovie();
+    void viewhistory();
+    void customermenu();
+};
+
+Customer c;
+
+void Customer::customermenu()
+{
+    int c;
+    char choice='y';
+    do
+    {
+        cout<<"OPTIONS:"<<endl;
+        cout<<"1.Rent a movie"<<endl;
+        cout<<"2.Return a movie"<<endl;
+        cout<<"3.View history"<<endl;
+        cin>>c;
+        switch(c)
+        {
+            case 1: rentmovie();
+                    break;
+            case 2: returnmovie();
+                    break;
+            case 3: viewhistory();
+                    break;
+            default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
+                    break;
+        }
+        cout<<"Do you want to continue? y or n"<<endl;
+        cin>>choice;
+    }
+    while(choice=='y'||choice=='Y');
+}
 void Customer:: rentmovie()
 {
     int code[10]={1,2,3,4,5,6,7,8,9,10};
@@ -282,11 +280,13 @@ void Customer:: returnmovie()
              m.code=0;
              nf.write((char*)&m,sizeof(m));
          }
-            }
-            nf.close();
+    }
+    nf.close();
     if(!flag)
+    {
         cout<<endl;
         cout<<"Not a valid customer code";
+    }
     f.close();
 }
 
@@ -301,7 +301,7 @@ void Customer:: viewhistory()
     while(f.read((char*)&c,sizeof(c)))
     {
        if (c.Ccode==ncode)
-            cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<c.rental.DateBorrowed<<endl;
+            cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<ctime(&c.rental.DateBorrowed)<<endl;
     }
     f.close();
 }
