@@ -15,10 +15,13 @@ void Customer::writeCountToFile(int num){
 
 int Customer::readCountFromFile(){
     int rv;
-    ifstream infile;
-    infile.open("customerCount.bin", ios::binary | ios::in);
-    infile.read(reinterpret_cast<char *>(&rv), sizeof(rv));
-    infile.close ();
+    ifstream infile ("customerCount.bin", ios::binary | ios::in);
+    if(infile){
+        infile.read(reinterpret_cast<char *>(&rv), sizeof(rv));
+        infile.close ();
+    } else {
+        rv = 0;
+    }
     return rv;
 }
 
