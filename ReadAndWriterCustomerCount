@@ -1,0 +1,36 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+class Customer{
+public:
+    void writeCountToFile(int num);
+    int readCountFromFile();
+};
+void Customer::writeCountToFile(int num){
+    ofstream outfile;
+    outfile.open("customerCount.bin", ios::binary|ios::out);
+    outfile.write (reinterpret_cast<const char *>(&num), sizeof(num));
+    outfile.close ();
+}
+
+int Customer::readCountFromFile(){
+    int rv;
+    ifstream infile;
+    infile.open("customerCount.bin", ios::binary | ios::in);
+    infile.read(reinterpret_cast<char *>(&rv), sizeof(rv));
+    infile.close ();
+    return rv;
+}
+
+int main() {
+    Customer customer;
+    for(int x= 0; x < 10 ; x++){
+        int a = rand();
+        customer.writeCountToFile(a);
+        assert(customer.readCountFromFile() == a);
+        std::cout << "Asserted read for " << x <<" | function return "<< customer.readCountFromFile() <<" |Value:" << a <<"\n";
+    }
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+
