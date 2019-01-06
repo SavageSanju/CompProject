@@ -14,7 +14,6 @@ public:
     char movie[50];
     int code;
     void addmovie();
-    void writemovie();
     void getmovie();
     void deletemovie();
     void displaymovie();
@@ -122,8 +121,6 @@ void movielibrary:: managermenu()
         cout<<"1. Add movies to the library"<<endl;
         cout<<"2. Delete movies from the library"<<endl;
         cout<<"3. View the borrowed movies with details"<<endl;
-        cout<<"4. Write into binary file"<<endl;
-        cout<<"5. Read from binary file"<<endl;
         cin>>c;
         switch(c)
         {
