@@ -161,10 +161,30 @@ public:
     void returnmovie();
     void viewhistory();
     void customermenu();
+    void writeCountToFile(int num);
+    int readCountFromFile();
 };
 
 Customer c;
 
+void Customer::writeCountToFile(int num){
+    ofstream outfile;
+    outfile.open("customerCount.bin", ios::binary|ios::out);
+    outfile.write (reinterpret_cast<const char *>(&num), sizeof(num));
+    outfile.close ();
+}
+
+int Customer::readCountFromFile(){
+    int rv;
+    ifstream infile ("customerCount.bin", ios::binary | ios::in);
+    if(infile){
+        infile.read(reinterpret_cast<char *>(&rv), sizeof(rv));
+        infile.close ();
+    } else {
+        rv = 0;
+    }
+    return rv;
+}
 void Customer::customermenu()
 {
     int c;
@@ -194,8 +214,7 @@ void Customer::customermenu()
 }
 void Customer:: rentmovie()
 {
-    int code[10]={1,2,3,4,5,6,7,8,9,10};
-    int noc=0;
+    int noc=readCountFromFile();
     char ch[5];
     f.open("database.dat",ios::out|ios::binary|ios::app);
     cout<<"Are you a new customer? yes/no";
@@ -203,7 +222,8 @@ void Customer:: rentmovie()
     if(strcmp(ch,"yes")==0)
     {
         noc=noc+1;
-        c.Ccode=code[noc-1];
+        writeCountToFile(noc);
+        c.Ccode=noc;
         cout<<"Your customer code is: "<<Ccode<<endl;
     }
     else
