@@ -2,19 +2,10 @@
 #include<fstream>
 #include<string.h>
 #include<time.h>
+
 using namespace std;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//customer functions
-
 fstream nf;
-
-class Movie
-{ public:
-    char MovieName[30];
-    int NoOfMovie;
-};
 
 class Rental
 {
@@ -34,7 +25,8 @@ public:
     void returnmovie();
     void viewhistory();
     void customermenu();
-} ;
+};
+
 Customer c;
 
 void Customer::customermenu()
@@ -51,13 +43,13 @@ void Customer::customermenu()
         switch(c)
         {
             case 1: rentmovie();
-                break;
+                    break;
             case 2: returnmovie();
-                break;
+                    break;
             case 3: viewhistory();
-                break;
+                    break;
             default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
-                break;
+                    break;
         }
         cout<<"Do you want to continue? y or n"<<endl;
         cin>>choice;
@@ -66,10 +58,6 @@ void Customer::customermenu()
 }
 
 fstream f;
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//manager functions
 
 class movielibrary
 {
@@ -86,6 +74,7 @@ public:
     void managermenu();
 
 };
+
 movielibrary s;
 
 void movielibrary::writemovie()
@@ -98,7 +87,6 @@ void movielibrary::writemovie()
     {
         s.getmovie();
         f.write((char*)&s,sizeof(s));
-
     }
     f.close();
 }
@@ -175,7 +163,6 @@ void movielibrary:: available()
     f.close();
 }
 
-
 void movielibrary:: managermenu()
 {
     int c;
@@ -207,79 +194,56 @@ void movielibrary:: managermenu()
     while(choice=='y'||choice=='Y');
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void Customer:: rentmovie()
 {
     int code[10]={1,2,3,4,5,6,7,8,9,10};
     int noc=0;
     char ch[5];
     f.open("database.dat",ios::out|ios::binary|ios::app);
-    // while(cn=='y')
-    //{
-    cout<<"are you a new customer";
+    cout<<"Are you a new customer? yes/no";
     cin>>ch;
-   // while(f.read)
     if(strcmp(ch,"yes")==0)
     {
         noc=noc+1;
         c.Ccode=code[noc-1];
-        cout<<"your customer code is "<<Ccode<<endl;
+        cout<<"Your customer code is: "<<Ccode<<endl;
     }
     else
     {
-        cout<<"enter your code";
+        cout<<"enter your code"<<endl;
         cin>>c.Ccode;
     }
-    cout<<"enter the movie you want to borrow";
-     fflush(stdin);
+    cout<<"Enter the movie you want to borrow: ";
+    fflush(stdin);
     gets(c.rental.MovieName);
     int flag=0;
     movielibrary m;
     fstream nf;
     nf.open("library.dat",ios::in|ios::out|ios::binary);
-
     while (nf.read((char*)&m,sizeof(m)))
     {
         if (strcmpi(c.rental.MovieName,m.movie)==0)
       {
           if (m.code==0)
-            {
+          {
             m.code=Ccode;
             nf.seekp(nf.tellg()-sizeof(m));
             nf.write((char*)&m,sizeof(m));
             flag=1;
-            }
-
-    }
-
+           }
+      }
     }
     nf.close();
-     if (flag==1)
+    if (flag==1)
     {
         time_t now = time(0);
         c.rental.DateBorrowed=now;
         f.write((char*)&c,sizeof(c));
-        //cout<<c.Ccode<<"  "<<c.rental[0].MovieName<<endl;
     }
     else
-        cout<<"not available at the moment"<<endl;
-    //cout<<"want to continue";
-    // cin>>cn;
-    // }
-   // f.close();
-    //f.open("database.dat",ios::in|ios::binary);
-    //cout<<" code  movie name  date borrowed"<<endl;
-    //while(f.read((char*)&c,sizeof(c)))
-        //cout<<c.Ccode<<"  "<<c.rental.MovieName<<"  "<<c.rental.DateBorrowed<<endl;
+        cout<<" \n Not available at the moment."<<endl;
     f.close();
-   // f.open("database.dat",ios::in|ios::binary);
-       // while(f.read((char*)&c,sizeof(c)))
-       //     cout<<Ccode;
-   // f.close();
 }
-
 
 void Customer:: returnmovie()
 {
@@ -288,10 +252,12 @@ void Customer:: returnmovie()
     int amt,t, flag=0;
     char n[30];
     f.open("Database.dat",ios::in|ios::binary);
-    cout<<"\n Enter customer code";
+    cout<<"\n Enter customer code: ";
     cin>>t;
-    cout<<"\n Enter Movie name";
+    cout<<endl;
+    cout<<"\n Enter Movie name: ";
     cin>>n;
+    cout<<endl;
     movielibrary m;
     while(f.read((char*)&s,sizeof(s)))
     {
@@ -302,7 +268,7 @@ void Customer:: returnmovie()
                 amt=50+10*((difftime(now,s.rental.DateBorrowed)/ (60 * 60 * 24))-7);
             else
                 amt=50;
-            cout<<"Please pay Rs."<<amt<<"to the manager";
+            cout<<"Please pay Rs."<<amt<<" to the manager.";
             flag=1;
             break;
         }
@@ -318,9 +284,8 @@ void Customer:: returnmovie()
          }
             }
             nf.close();
-
-
     if(!flag)
+        cout<<endl;
         cout<<"Not a valid customer code";
     f.close();
 }
@@ -329,10 +294,10 @@ void Customer:: viewhistory()
 {
     Customer c;
     f.open("database.dat",ios::in|ios::binary);
-    cout<<"enter customer code to view history";
+    cout<<"Enter customer code to view history: ";
     int ncode;
     cin>>ncode;
-    cout<<" code  movie name  date borrowed"<<endl;
+    cout<<" Code  Movie Name  Date Borrowed"<<endl;
     while(f.read((char*)&c,sizeof(c)))
     {
        if (c.Ccode==ncode)
@@ -340,12 +305,6 @@ void Customer:: viewhistory()
     }
     f.close();
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//main initial menu
-
-//second menu
 
 void choicemenu()
 {
@@ -368,8 +327,6 @@ void choicemenu()
         }
     }
 }
-
-//main menu
 
 int main()
 {
