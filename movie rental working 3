@@ -14,16 +14,33 @@ public:
     char movie[50];
     int code;
     void addmovie();
+    void writemovie();
     void getmovie();
     void deletemovie();
     void displaymovie();
     void available();
     void readmovie();
     void managermenu();
-
+    void borrowed();
+    void overdue();
+    void all();
 };
 
 movielibrary s;
+
+void movielibrary::writemovie()
+{
+    int nom;
+    cout<<"Input the number of movies"<<endl;
+    cin>>nom;
+    f.open("library.dat",ios::out|ios::binary);
+    for (int i=0;i<nom;i++)
+    {
+        s.getmovie();
+        f.write((char*)&s,sizeof(s));
+    }
+    f.close();
+}
 
 void movielibrary::getmovie()
 {
@@ -87,7 +104,7 @@ void movielibrary:: deletemovie()
         cout<<"Not found! Try another movie."<<endl;
 }
 
-void movielibrary:: available()
+void movielibrary:: all()
 {
     f.open("library.dat", ios::in|ios::binary);
     while(f.read((char*)&s,sizeof(s)))
@@ -96,7 +113,16 @@ void movielibrary:: available()
     }
     f.close();
 }
-
+void movielibrary:: available()
+{
+    f.open("library.dat", ios::in|ios::binary);
+    while(f.read((char*)&s,sizeof(s)))
+    {
+        if(s.code==0)
+            cout<<movie<<"  "<<code<<endl;
+    }
+    f.close();
+}
 void movielibrary:: managermenu()
 {
     int c;
@@ -106,7 +132,9 @@ void movielibrary:: managermenu()
         cout<<"OPTIONS:"<<endl;
         cout<<"1. Add movies to the library"<<endl;
         cout<<"2. Delete movies from the library"<<endl;
-        cout<<"3. View the borrowed movies with details"<<endl;
+        cout<<"3. View all the movies with details"<<endl;
+        cout<<"4. View the borrowed movies with details"<<endl;
+        cout<<"5. View the overdue movies with details"<<endl;
         cin>>c;
         switch(c)
         {
@@ -114,7 +142,13 @@ void movielibrary:: managermenu()
                 break;
             case 2: deletemovie();
                 break;
-            case 3: available();
+            case 3: all();
+                break;
+            case 4: borrowed();
+                break;
+            case 5: overdue();
+                break;
+            case 6: available();
                 break;
             default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
                 break;
@@ -146,6 +180,7 @@ public:
     void customermenu();
     void writeCountToFile(int num);
     int readCountFromFile();
+    void currentRentals();
 };
 
 Customer c;
@@ -178,6 +213,7 @@ void Customer::customermenu()
         cout<<"1.Rent a movie"<<endl;
         cout<<"2.Return a movie"<<endl;
         cout<<"3.View history"<<endl;
+        cout<<"4.View current rentals"<<endl;
         cin>>c;
         switch(c)
         {
@@ -186,6 +222,8 @@ void Customer::customermenu()
             case 2: returnmovie();
                     break;
             case 3: viewhistory();
+                    break;
+            case 4: currentRentals();
                     break;
             default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
                     break;
@@ -205,7 +243,6 @@ void Customer:: rentmovie()
     if(strcmp(ch,"yes")==0)
     {
         noc=noc+1;
-        writeCountToFile(noc);
         c.Ccode=noc;
         cout<<"Your customer code is: "<<Ccode<<endl;
     }
@@ -231,6 +268,7 @@ void Customer:: rentmovie()
             nf.seekp(nf.tellg()-sizeof(m));
             nf.write((char*)&m,sizeof(m));
             flag=1;
+            writeCountToFile(noc);
            }
       }
     }
@@ -270,6 +308,7 @@ void Customer:: returnmovie()
             else
                 amt=50;
             cout<<"Please pay Rs."<<amt<<" to the manager.";
+            s.rental.DateReturned=now;
             flag=1;
             break;
         }
@@ -308,7 +347,40 @@ void Customer:: viewhistory()
     }
     f.close();
 }
-
+void movielibrary:: borrowed()
+{
+    Customer p;
+    f.open("database.dat", ios::in|ios::binary);
+    while(f.read((char*)&p,sizeof(p)))
+    {
+        if(p.rental.DateReturned==NULL)
+            cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
+    }
+    f.close();
+}
+void movielibrary:: overdue()
+{
+    time_t now = time(0);
+    Customer p;
+    f.open("database.dat", ios::in|ios::binary);
+    while(f.read((char*)&p,sizeof(p)))
+    {
+        if((difftime(now,p.rental.DateBorrowed)/ (60 * 60 * 24))>7)
+            cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
+    }
+    f.close();
+}
+void Customer:: currentRentals()
+{
+    Customer p;
+    f.open("database.dat", ios::in|ios::binary);
+    while(f.read((char*)&p,sizeof(p)))
+    {
+        if(p.rental.DateReturned==NULL)
+            cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
+    }
+    f.close();
+}
 void choicemenu()
 {
     char user[30];
