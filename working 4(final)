@@ -378,7 +378,7 @@ void Customer:: viewhistory()
     while(f.read((char*)&c,sizeof(c)))
     {
        if (c.Ccode==ncode)
-            cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<ctime(&c.rental.DateBorrowed)<<endl;
+            cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<ctime(&c.rental.DateBorrowed)<<ctime(&c.rental.DateReturned)<<endl;
     }
     f.close();
 }
