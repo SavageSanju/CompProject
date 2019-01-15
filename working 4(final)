@@ -449,7 +449,7 @@ void choicemenu()
 
 int main()
 {
-    cout<<"Welcome to ________ Movie Rentals"<<endl;
+    cout<<"Welcome to ABC Movie Rentals"<<endl;
     char choice='y';
     do
     {
