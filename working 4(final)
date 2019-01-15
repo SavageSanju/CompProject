@@ -17,7 +17,6 @@ public:
     void getmovie();
     void deletemovie();
     void displaymovie();
-    void readmovie();
     void managermenu();
     void borrowed();
     void overdue();
@@ -39,14 +38,6 @@ void movielibrary:: displaymovie()
 {
 
     cout<<movie<<"  "<<code<<endl;
-}
-
-void movielibrary:: readmovie()
-{
-    f.open("library.dat",ios::in|ios::binary);
-    while(f.read((char*)&s,sizeof(s)))
-        displaymovie();
-    f.close();
 }
 
 void movielibrary:: addmovie()
