@@ -14,7 +14,6 @@ public:
     char movie[50];
     int code;
     void addmovie();
-    void writemovie();
     void getmovie();
     void deletemovie();
     void displaymovie();
@@ -27,20 +26,6 @@ public:
 };
 
 movielibrary s;
-
-void movielibrary::writemovie()
-{
-    int nom;
-    cout<<"Input the number of movies"<<endl;
-    cin>>nom;
-    f.open("library.dat",ios::out|ios::binary);
-    for (int i=0;i<nom;i++)
-    {
-        s.getmovie();
-        f.write((char*)&s,sizeof(s));
-    }
-    f.close();
-}
 
 void movielibrary::getmovie()
 {
@@ -430,8 +415,8 @@ void Customer::searchmovie()
 
           if (m.code==0)
           {
-            cout<<"movie is available"endl;
-           }
+            cout<<"movie is available"<<endl;
+          }
       }
 
     nf.close();
