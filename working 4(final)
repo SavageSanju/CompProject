@@ -83,12 +83,14 @@ void movielibrary:: deletemovie()
 void movielibrary:: all()
 { sortmovie();
     f.open("library.dat", ios::in|ios::binary);
+    cout<<"Movie Name         Code"<<endl;
     while(f.read((char*)&s,sizeof(s)))
     {
-            cout<<movie<<"  "<<code<<endl;
+            cout<<movie<<"         "<<code<<endl;
     }
     f.close();
 }
+
 void movielibrary::sortmovie()
 {
     f.open("library.dat",ios::in|ios::out|ios::binary);
@@ -124,13 +126,12 @@ void movielibrary::sortmovie()
     nf.close();
     remove("library.dat");
     rename("newlibrary.dat","library.dat");
+}
 
-
-    }
 void movielibrary:: managermenu()
 {
     int c;
-    char choice='y';
+    char choice[5]="yes";
     do
     {
         cout<<"OPTIONS:"<<endl;
@@ -140,6 +141,7 @@ void movielibrary:: managermenu()
         cout<<"4. View the borrowed movies with details"<<endl;
         cout<<"5. View the overdue movies with details"<<endl;
         cin>>c;
+        cout<<endl;
         switch(c)
         {
             case 1: addmovie();
@@ -156,18 +158,19 @@ void movielibrary:: managermenu()
                 break;
         }
         cout<<endl;
-        cout<<"Do you want to continue? y or n"<<endl;
+        cout<<"Do you want to continue? yes/no"<<endl;
         cin>>choice;
+        cout<<endl;
     }
-    while(choice=='y'||choice=='Y');
+    while (strcmpi(choice,"yes")==0);
 }
 
 class Rental
 {
-public:
-    char MovieName[30];
-    time_t DateBorrowed;
-    time_t DateReturned;
+    public:
+        char MovieName[30];
+        time_t DateBorrowed;
+        time_t DateReturned;
 };
 
 class Customer
@@ -189,7 +192,8 @@ public:
 
 Customer c;
 
-void Customer::writeCountToFile(int num){
+void Customer::writeCountToFile(int num)
+{
     ofstream outfile;
     outfile.open("customerCount.bin", ios::binary|ios::out);
     outfile.write (reinterpret_cast<const char *>(&num), sizeof(num));
@@ -207,10 +211,11 @@ int Customer::readCountFromFile(){
     }
     return rv;
 }
+
 void Customer::customermenu()
 {
     int c;
-    char choice='y';
+    char choice[5]="yes";
     do
     {
         cout<<"OPTIONS:"<<endl;
@@ -221,6 +226,7 @@ void Customer::customermenu()
         cout<<"5.search for a movie"<<endl;
         cout<<"6.available movies"<<endl;
         cin>>c;
+        cout<<endl;
         switch(c)
         {
             case 1: rentmovie();
@@ -238,18 +244,22 @@ void Customer::customermenu()
             default:cout<<"Wrong input! Please input numbers 1, 2 or 3 only."<<endl;
                     break;
         }
-        cout<<"Do you want to continue? y or n"<<endl;
+        cout<<endl;
+        cout<<"Do you want to continue? yes/no"<<endl;
         cin>>choice;
+        cout<<endl;
     }
-    while(choice=='y'||choice=='Y');
+    while (strcmpi(choice,"yes")==0);
 }
+
 void Customer:: rentmovie()
 {
     int noc=readCountFromFile();
     char ch[5];
     f.open("database.dat",ios::out|ios::binary|ios::app);
-    cout<<"Are you a new customer? yes/no";
+    cout<<"Are you a new customer? yes/no  ";
     cin>>ch;
+    cout<<endl;
     if(strcmp(ch,"yes")==0)
     {
         noc=noc+1;
@@ -258,12 +268,13 @@ void Customer:: rentmovie()
     }
     else
     {
-        cout<<"enter your code"<<endl;
+        cout<<"enter your code: ";
         cin>>c.Ccode;
     }
     cout<<"Enter the movie you want to borrow: ";
     fflush(stdin);
     gets(c.rental.MovieName);
+    cout<<endl;
     int flag=0;
     movielibrary m;
     fstream nf;
@@ -290,7 +301,7 @@ void Customer:: rentmovie()
         f.write((char*)&c,sizeof(c));
     }
     else
-        cout<<" \n Not available at the moment."<<endl;
+        cout<<"Not available at the moment."<<endl;
     f.close();
 }
 
@@ -301,13 +312,11 @@ void Customer:: returnmovie()
     int amt,t, flag=0;
     char n[30];
     f.open("Database.dat",ios::in|ios::binary);
-    cout<<"\n Enter customer code: ";
+    cout<<"Enter customer code: ";
     cin>>t;
-    cout<<endl;
-    cout<<"\n Enter Movie name: ";
+    cout<<"Enter Movie name: ";
     fflush(stdin);
     gets(n);
-    cout<<endl;
     movielibrary m;
     while(f.read((char*)&s,sizeof(s)))
     {
@@ -318,7 +327,7 @@ void Customer:: returnmovie()
                 amt=50+10*((difftime(now,s.rental.DateBorrowed)/ (60 * 60 * 24))-7);
             else
                 amt=50;
-            cout<<"Please pay Rs."<<amt<<" to the manager.";
+            cout<<"Please pay Rs."<<amt<<" to the manager."<<endl;
             s.rental.DateReturned=now;
             flag=1;
             break;
@@ -338,7 +347,7 @@ void Customer:: returnmovie()
     if(!flag)
     {
         cout<<endl;
-        cout<<"Not a valid customer code";
+        cout<<"Not a valid customer code"<<endl;
     }
     f.close();
 }
@@ -358,6 +367,7 @@ void Customer:: viewhistory()
     }
     f.close();
 }
+
 void movielibrary:: borrowed()
 {
     Customer p;
@@ -369,18 +379,7 @@ void movielibrary:: borrowed()
     }
     f.close();
 }
-void movielibrary:: overdue()
-{
-    time_t now = time(0);
-    Customer p;
-    f.open("database.dat", ios::in|ios::binary);
-    while(f.read((char*)&p,sizeof(p)))
-    {
-        if((difftime(now,p.rental.DateBorrowed)/ (60 * 60 * 24))>7)
-            cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
-    }
-    f.close();
-}
+
 void Customer:: currentRentals()
 {
     Customer p;
@@ -392,11 +391,27 @@ void Customer:: currentRentals()
     }
     f.close();
 }
+
+void movielibrary:: overdue()
+{
+    time_t now = time(0);
+    Customer p;
+    f.open("database.dat", ios::in|ios::binary);
+    while(f.read((char*)&p,sizeof(p)))
+    {
+        if((difftime(now,p.rental.DateBorrowed)/ (60 * 60 * 24))>7)
+            cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
+        else
+            cout<<"No overdue movies."<<endl;
+    }
+    f.close();
+}
+
 void Customer::searchmovie()
 {
     movielibrary m;
     fstream nf;
-    cout<<"Enter the movie : ";
+    cout<<"Enter the movie name: ";
     fflush(stdin);
     gets(c.rental.MovieName);
     nf.open("library.dat",ios::in|ios::out|ios::binary);
@@ -406,13 +421,14 @@ void Customer::searchmovie()
 
           if (m.code==0)
           {
-            cout<<"movie is available"<<endl;
+            cout<<"The movie is available."<<endl;
           }
       }
 
     nf.close();
 
 }
+
 void Customer:: availablemovie()
 {
     movielibrary m;
@@ -425,12 +441,14 @@ void Customer:: availablemovie()
     }
     f.close();
 }
+
 void choicemenu()
 {
     char user[30];
     cout<<"Are you a customer or a manager?"<<endl;
     fflush(stdin);
     gets(user);
+    cout<<endl;
     if(strcmpi(user,"Customer")==0)
     {
        c.customermenu();
@@ -438,8 +456,9 @@ void choicemenu()
     else if(strcmpi(user,"Manager")==0)
     {
         int passw;
-        cout<<"Enter the password"<<endl;
+        cout<<"Enter the password: ";
         cin>>passw;
+        cout<<endl;
         if (passw==2806)
         {
             s.managermenu();
@@ -450,12 +469,17 @@ void choicemenu()
 int main()
 {
     cout<<"Welcome to ABC Movie Rentals"<<endl;
-    char choice='y';
+    cout<<"Every movie can be borrowed for a maximum of 1 week from the date of issue."<<endl;
+    cout<<"Rate: Rs.100 for 1 week."<<endl;
+    cout<<"Late fee: Rs.10 for every extra day"<<endl;
+    cout<<endl;
+    char choice[5]="yes";
     do
     {
         choicemenu();
         cout<<"Do you want to change users?"<<endl;
-        cin>>choice;
+        fflush(stdin);
+        gets(choice);
     }
-    while (choice=='Y'||choice=='y');
+    while (strcmpi(choice,"yes")==0);
 }
