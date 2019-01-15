@@ -350,7 +350,7 @@ void Customer:: viewhistory()
     cout<<"Enter customer code to view history: ";
     int ncode;
     cin>>ncode;
-    cout<<" Code  Movie Name  Date Borrowed"<<endl;
+    cout<<" Code  Movie Name  Date Borrowed   Date Returned"<<endl;
     while(f.read((char*)&c,sizeof(c)))
     {
        if (c.Ccode==ncode)
