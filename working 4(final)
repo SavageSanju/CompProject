@@ -8,6 +8,8 @@ using namespace std;
 fstream nf;
 fstream f;
 
+//manager class
+
 class movielibrary
 {
 public:
@@ -25,6 +27,8 @@ public:
 };
 
 movielibrary s;
+
+//manager functions
 
 void movielibrary::getmovie()
 {
@@ -128,7 +132,7 @@ void movielibrary::sortmovie()
     rename("newlibrary.dat","library.dat");
 }
 
-void movielibrary:: managermenu()
+void movielibrary:: managermenu() //manager main menu
 {
     int c;
     char choice[5]="yes";
@@ -164,6 +168,8 @@ void movielibrary:: managermenu()
     }
     while (strcmpi(choice,"yes")==0);
 }
+
+//customer classes
 
 class Rental
 {
@@ -212,7 +218,7 @@ int Customer::readCountFromFile(){
     return rv;
 }
 
-void Customer::customermenu()
+void Customer::customermenu()  //customer main menu
 {
     int c;
     char choice[5]="yes";
@@ -251,6 +257,8 @@ void Customer::customermenu()
     }
     while (strcmpi(choice,"yes")==0);
 }
+
+//customer functions
 
 void Customer:: rentmovie()
 {
@@ -466,11 +474,11 @@ void choicemenu()
     }
 }
 
-int main()
+int main() 
 {
     cout<<"Welcome to ABC Movie Rentals"<<endl;
     cout<<"Every movie can be borrowed for a maximum of 1 week from the date of issue."<<endl;
-    cout<<"Rate: Rs.100 for 1 week."<<endl;
+    cout<<"Rate: Rs.50 for 1 week."<<endl;
     cout<<"Late fee: Rs.10 for every extra day"<<endl;
     cout<<endl;
     char choice[5]="yes";
