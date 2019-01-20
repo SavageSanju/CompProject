@@ -392,12 +392,16 @@ void movielibrary:: borrowed()
 
 void Customer:: currentRentals()
 {
-    Customer p;
-    f.open("database.dat", ios::in|ios::binary);
-    while(f.read((char*)&p,sizeof(p)))
+    movielibrary m;
+     m.sortmovie();
+     cout<<"enter yout code to view current rentals";
+     int ncode;
+     cin>>ncode;
+    f.open("library.dat", ios::in|ios::binary);
+    while(f.read((char*)&m,sizeof(m)))
     {
-        if(p.rental.DateReturned==NULL)
-            cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
+        if(m.code==ncode)
+            cout<<m.movie<<endl;
     }
     f.close();
 }
@@ -406,12 +410,15 @@ void movielibrary:: overdue()
 {
     time_t now = time(0);
     Customer p;
+    int flag=0;
     f.open("database.dat", ios::in|ios::binary);
     while(f.read((char*)&p,sizeof(p)))
     {
         if((difftime(now,p.rental.DateBorrowed)/ (60 * 60 * 24))>7)
             cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
         else
+            flag=1;
+        if(flag==0)
             cout<<"No overdue movies."<<endl;
     }
     f.close();
@@ -433,8 +440,11 @@ void Customer::searchmovie()
           {
             cout<<"The movie is available."<<endl;
           }
-      }
+          else
+            cout<<"not available"<<endl;
 
+    }
+    f.close();
     nf.close();
 
 }
@@ -476,7 +486,7 @@ void choicemenu()
     }
 }
 
-int main() 
+int main()
 {
     cout<<"Welcome to ABC Movie Rentals"<<endl;
     cout<<"Every movie can be borrowed for a maximum of 1 week from the date of issue."<<endl;
@@ -493,3 +503,4 @@ int main()
     }
     while (strcmpi(choice,"yes")==0);
 }
+ 
