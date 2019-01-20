@@ -320,7 +320,7 @@ void Customer:: returnmovie()
     fstream f;
     int amt,t, flag=0;
     char n[30];
-    f.open("Database.dat",ios::in|ios::binary);
+    f.open("Database.dat",ios::in|ios::binary|ios::out);
     cout<<"Enter customer code: ";
     cin>>t;
     cout<<"Enter Movie name: ";
@@ -338,7 +338,10 @@ void Customer:: returnmovie()
                 amt=50;
             cout<<"Please pay Rs."<<amt<<" to the manager."<<endl;
             s.rental.DateReturned=now;
+            f.seekp(f.tellg()-sizeof(s));
+            f.write((char*)&s,sizeof(s));
             flag=1;
+
             break;
         }
     }
@@ -381,6 +384,7 @@ void Customer:: viewhistory()
 
 void movielibrary:: borrowed()
 {
+
       movielibrary m;
      m.sortmovie();
     f.open("library.dat", ios::in|ios::binary);
@@ -410,6 +414,7 @@ void Customer:: currentRentals()
 
 void movielibrary:: overdue()
 {
+    fstream f;
     time_t now = time(0);
     Customer p;
     int flag=0;
@@ -417,12 +422,13 @@ void movielibrary:: overdue()
     while(f.read((char*)&p,sizeof(p)))
     {
         if((difftime(now,p.rental.DateBorrowed)/ (60 * 60 * 24))>7)
+           {
             cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
-        else
-            flag=1;
-        if(flag!=0)
-            cout<<"No overdue movies."<<endl;
+            flag++;
+           }
     }
+        if(flag==0)
+            cout<<"No overdue movies."<<endl;
     f.close();
 }
 
