@@ -2,6 +2,7 @@
 #include<fstream>
 #include<string.h>
 #include<time.h>
+#include<iomanip>
 
 using namespace std;
 
@@ -71,7 +72,7 @@ void movielibrary:: deletemovie()
     nf.open("newlibrary.dat",ios::out|ios::binary);
     while(f.read((char*)&s,sizeof(s)))
     {
-        if (strcmp(s.movie,delmovie)!=0)
+        if (strcmpi(s.movie,delmovie)!=0)
             nf.write((char*)&s,sizeof(s));
         else
             flag++;
@@ -87,10 +88,10 @@ void movielibrary:: deletemovie()
 void movielibrary:: all()
 { sortmovie();
     f.open("library.dat", ios::in|ios::binary);
-    cout<<"Movie Name         Code"<<endl;
+    cout<<setw(25)<<setiosflags(ios::left)<<"Movie Name"<<setw(30)<<setiosflags(ios::left)<<"Code"<<endl;
     while(f.read((char*)&s,sizeof(s)))
     {
-            cout<<movie<<"         "<<code<<endl;
+            cout<<setw(25)<<setiosflags(ios::left)<<movie<<setw(30)<<setiosflags(ios::left)<<code<<endl;
     }
     f.close();
 }
@@ -229,8 +230,8 @@ void Customer::customermenu()  //customer main menu
         cout<<"2.Return a movie"<<endl;
         cout<<"3.View history"<<endl;
         cout<<"4.View current rentals"<<endl;
-        cout<<"5.search for a movie"<<endl;
-        cout<<"6.available movies"<<endl;
+        cout<<"5.Search for a movie"<<endl;
+        cout<<"6.Available movies"<<endl;
         cin>>c;
         cout<<endl;
         switch(c)
@@ -355,7 +356,7 @@ void Customer:: returnmovie()
     if(!flag)
     {
         cout<<endl;
-        cout<<"Not a valid customer code"<<endl;
+        cout<<"Not a valid customer code."<<endl;
     }
     f.close();
 }
@@ -367,13 +368,13 @@ void Customer:: viewhistory()
     cout<<"Enter customer code to view history: ";
     int ncode;
     cin>>ncode;
-    cout<<" Code  Movie Name  Date Borrowed"<<endl;
+    cout<<setw(15)<<setiosflags(ios::left)<<"Code"<<setw(15)<<setiosflags(ios::left)<<"Movie Name"<<setw(25)<<setiosflags(ios::left)<<"Date Borrowed"<<setw(70)<<setiosflags(ios::left)<<"Date Returned"<<endl;
     while(f.read((char*)&c,sizeof(c)))
     {
         if (c.Ccode==ncode&&c.rental.DateReturned!=NULL)
-            cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<ctime(&c.rental.DateBorrowed)<<ctime(&c.rental.DateReturned)<<endl;
+            cout<<setw(15)<<setiosflags(ios::left)<<c.Ccode<<setw(15)<<setiosflags(ios::left)<<c.rental.MovieName<<setw(25)<<setiosflags(ios::left)<<ctime(&c.rental.DateBorrowed)<<setw(70)<<setiosflags(ios::left)<<ctime(&c.rental.DateReturned)<<endl;
         if (c.Ccode==ncode&&c.rental.DateReturned==NULL)
-            cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<ctime(&c.rental.DateBorrowed)<<"-----"<<endl;
+            cout<<setw(15)<<setiosflags(ios::left)<<c.Ccode<<setw(15)<<setiosflags(ios::left)<<c.rental.MovieName<<setw(25)<<setiosflags(ios::left)<<ctime(&c.rental.DateBorrowed)<<setw(70)<<setiosflags(ios::left)<<"Not Returned"<<endl;
     }
     f.close();
 }
@@ -382,10 +383,11 @@ void movielibrary:: borrowed()
 {
     Customer p;
     f.open("database.dat", ios::in|ios::binary);
+    cout<<setw(15)<<setiosflags(ios::left)<<"MOVIE NAME"<<setw(15)<<setiosflags(ios::left)<<"CUSTOMER CODE"<<endl;
     while(f.read((char*)&p,sizeof(p)))
     {
         if(p.rental.DateReturned==NULL)
-            cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
+            cout<<setw(15)<<setiosflags(ios::left)<<p.rental.MovieName<<setw(15)<<setiosflags(ios::left)<<p.Ccode<<endl;
     }
     f.close();
 }
@@ -394,7 +396,7 @@ void Customer:: currentRentals()
 {
     movielibrary m;
      m.sortmovie();
-     cout<<"enter yout code to view current rentals";
+     cout<<"Enter your code to view current rentals: ";
      int ncode;
      cin>>ncode;
     f.open("library.dat", ios::in|ios::binary);
@@ -435,17 +437,14 @@ void Customer::searchmovie()
     nf.open("library.dat",ios::in|ios::out|ios::binary);
     while (nf.read((char*)&m,sizeof(m)))
     {
-        flag++;
         if (strcmpi(c.rental.MovieName,m.movie)==0)
         {
-          if (m.code==0)
-          {
-            cout<<"The movie is currently available."<<endl;
-          }
-          else
-            cout<<"Not available at the moment."<<endl;
-         }
-
+            flag++;
+            if (m.code==0)
+                cout<<"The movie is currently available."<<endl;
+            else if (m.code==1)
+                cout<<"Not available at the moment."<<endl;
+        }
     }
     if (flag==0)
         cout<<"Movie not in the library."<<endl;
@@ -453,6 +452,7 @@ void Customer::searchmovie()
     nf.close();
 
 }
+
 
 void Customer:: availablemovie()
 {
@@ -508,4 +508,3 @@ int main()
     }
     while (strcmpi(choice,"yes")==0);
 }
- 
