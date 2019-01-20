@@ -367,11 +367,13 @@ void Customer:: viewhistory()
     cout<<"Enter customer code to view history: ";
     int ncode;
     cin>>ncode;
-    cout<<" Code  Movie Name  Date Borrowed   Date Returned"<<endl;
+    cout<<" Code  Movie Name  Date Borrowed"<<endl;
     while(f.read((char*)&c,sizeof(c)))
     {
-       if (c.Ccode==ncode)
+        if (c.Ccode==ncode&&c.rental.DateReturned!=NULL)
             cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<ctime(&c.rental.DateBorrowed)<<ctime(&c.rental.DateReturned)<<endl;
+        if (c.Ccode==ncode&&c.rental.DateReturned==NULL)
+            cout<<c.Ccode<<"  "<<c.rental.MovieName<<" "<<ctime(&c.rental.DateBorrowed)<<"-----"<<endl;
     }
     f.close();
 }
