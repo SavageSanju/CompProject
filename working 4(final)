@@ -420,7 +420,7 @@ void movielibrary:: overdue()
             cout<<p.rental.MovieName<<"  "<<p.Ccode<<endl;
         else
             flag=1;
-        if(flag==0)
+        if(flag!=0)
             cout<<"No overdue movies."<<endl;
     }
     f.close();
