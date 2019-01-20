@@ -381,13 +381,13 @@ void Customer:: viewhistory()
 
 void movielibrary:: borrowed()
 {
-    Customer p;
-    f.open("database.dat", ios::in|ios::binary);
-    cout<<setw(15)<<setiosflags(ios::left)<<"MOVIE NAME"<<setw(15)<<setiosflags(ios::left)<<"CUSTOMER CODE"<<endl;
-    while(f.read((char*)&p,sizeof(p)))
+      movielibrary m;
+     m.sortmovie();
+    f.open("library.dat", ios::in|ios::binary);
+    while(f.read((char*)&m,sizeof(m)))
     {
-        if(p.rental.DateReturned==NULL)
-            cout<<setw(15)<<setiosflags(ios::left)<<p.rental.MovieName<<setw(15)<<setiosflags(ios::left)<<p.Ccode<<endl;
+        if(m.code!=0)
+            cout<<m.movie<<" "<<m.code<<endl;
     }
     f.close();
 }
