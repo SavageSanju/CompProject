@@ -428,22 +428,27 @@ void Customer::searchmovie()
 {
     movielibrary m;
     fstream nf;
+    int flag=0;
     cout<<"Enter the movie name: ";
     fflush(stdin);
     gets(c.rental.MovieName);
     nf.open("library.dat",ios::in|ios::out|ios::binary);
     while (nf.read((char*)&m,sizeof(m)))
     {
+        flag++;
         if (strcmpi(c.rental.MovieName,m.movie)==0)
-
+        {
           if (m.code==0)
           {
-            cout<<"The movie is available."<<endl;
+            cout<<"The movie is currently available."<<endl;
           }
           else
-            cout<<"not available"<<endl;
+            cout<<"Not available at the moment."<<endl;
+         }
 
     }
+    if (flag==0)
+        cout<<"Movie not in the library."<<endl;
     f.close();
     nf.close();
 
