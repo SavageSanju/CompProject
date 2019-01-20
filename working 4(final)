@@ -277,7 +277,7 @@ void Customer:: rentmovie()
     }
     else
     {
-        cout<<"enter your code: ";
+        cout<<"Enter your code: ";
         cin>>c.Ccode;
     }
     cout<<"Enter the movie you want to borrow: ";
