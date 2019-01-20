@@ -448,7 +448,7 @@ void Customer::searchmovie()
             flag++;
             if (m.code==0)
                 cout<<"The movie is currently available."<<endl;
-            else if (m.code==1)
+            else 
                 cout<<"Not available at the moment."<<endl;
         }
     }
