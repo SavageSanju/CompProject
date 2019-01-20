@@ -436,14 +436,15 @@ void Customer::searchmovie()
 {
     movielibrary m;
     fstream nf;
+    char movie[30];
     int flag=0;
     cout<<"Enter the movie name: ";
     fflush(stdin);
-    gets(c.rental.MovieName);
+    gets(movie);
     nf.open("library.dat",ios::in|ios::out|ios::binary);
     while (nf.read((char*)&m,sizeof(m)))
     {
-        if (strcmpi(c.rental.MovieName,m.movie)==0)
+        if (strcmpi(movie,m.movie)==0)
         {
             flag++;
             if (m.code==0)
